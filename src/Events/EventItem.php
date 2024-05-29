@@ -4,8 +4,9 @@ namespace Buildix\Timex\Events;
 
 use Carbon\Carbon;
 use Closure;
+use Livewire\Wireable;
 
-class EventItem
+class EventItem implements Wireable
 {
     protected ?string $body = null;
     protected ?string $category = null;
@@ -22,12 +23,58 @@ class EventItem
     protected string $subject;
     protected $type;
 
-
-
-
     final public function __construct($eventID)
     {
-            $this->eventID($eventID);
+        $this->eventID($eventID);
+    }
+
+    // public function toLivewire()
+    // {
+    //     dd($this);
+    //     return $this;
+    // }
+
+    // public static function fromLivewire($value)
+    // {
+    //     return new static($value);
+    // }
+
+    public function toLivewire()
+    {
+        return [
+            'body' => $this->body,
+            'category' => $this->category,
+            'color' => $this->color,
+            'end' => $this->end,
+            'endTime' => $this->endTime,
+            'eventID' => $this->eventID,
+            'icon' => $this->icon,
+            'isAllDay' => $this->isAllDay,
+            'organizer' => $this->organizer,
+            'participants' => $this->participants,
+            'start' => $this->start,
+            'startTime' => $this->startTime,
+            'subject' => $this->subject,
+            'type' => $this->type,
+        ];
+    }
+
+    public static function fromLivewire($value)
+    {
+        $event = new static($value['eventID']);
+        $event->body($value['body'] ?? null)
+            ->category($value['category'] ?? null)
+            ->color($value['color'] ?? null)
+            ->end(Carbon::createFromTimestamp($value['end']))
+            ->icon($value['icon'] ?? null)
+            ->isAllDay($value['isAllDay'])
+            ->organizer($value['organizer'])
+            ->participants($value['participants'] ?? [])
+            ->start(Carbon::createFromTimestamp($value['start']))
+            ->startTime($value['startTime'] ?? null)
+            ->subject($value['subject']);
+
+        return $event;
     }
 
     public function body(?string $body): static
@@ -82,7 +129,7 @@ class EventItem
         return $this;
     }
 
-    public function startTime(?string $startTime):static
+    public function startTime(?string $startTime): static
     {
         $this->startTime = $startTime;
 
@@ -162,7 +209,6 @@ class EventItem
         $this->isAllDay = $isAllDay;
 
         return $this;
-
     }
 
     public function getIcon(): ?string
@@ -174,5 +220,4 @@ class EventItem
     {
         return $this->isAllDay;
     }
-
 }
