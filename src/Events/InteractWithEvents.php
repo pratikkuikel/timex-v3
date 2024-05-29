@@ -6,7 +6,7 @@ use Carbon\Carbon;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Concerns\InteractsWithForms;
 use Filament\Notifications\Notification;
-use Filament\Resources\Pages\Concerns\UsesResourceForm;
+// use Filament\Resources\Pages\Concerns\UsesResourceForm;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Fluent;
 use Mikrosmile\FilamentCalendar\Models\Event;
@@ -15,7 +15,6 @@ use Mikrosmile\FilamentCalendar\Resources\EventResource;
 trait InteractWithEvents
 {
     use InteractsWithForms;
-    use UsesResourceForm;
     protected static string $resource;
     protected static string $model;
     public $record;
@@ -56,8 +55,8 @@ trait InteractWithEvents
                 ]);
             }
         }
-        $this->emit('modelUpdated',['id' => $this->id]);
-        $this->emit('updateWidget',['id' => $this->id]);
+        $this->dispatch('modelUpdated',['id' => $this->getId()]);
+        $this->dispatch('updateWidget',['id' => $this->getId()]);
     }
 
 
