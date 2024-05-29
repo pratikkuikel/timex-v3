@@ -6,4 +6,5 @@
         <div class="lg:hidden">--}}
 {{--        <livewire:timex-event-list/>--}}
 {{--    </div>--}}
+<x-filament-actions::modals />
 </x-filament::page>

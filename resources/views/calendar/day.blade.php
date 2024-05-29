@@ -1,10 +1,12 @@
-{{-- @dd($last); --}}
 <div class="timex-day">
     <div @class([
         'text-gray-400' => !$isCurrentMonthDay || $isWeekend,
         'border-t dark:border-gray-600',
         'pl-2 pt-2',
-    ]) wire:click="$dispatch('onDayClick','{{ $timestamp }}')">
+    ])
+     {{-- wire:click="$dispatch('onDayClick','{{ $timestamp }}')" --}}
+     wire:click="$dispatch('onDayClick', { timestamp: {{ $timestamp }} })"
+     >
         <span id="day-{{ $timestamp }}" @class([
             'relative cursor-pointer inline-flex items-center justify-center text-sm ml-auto rtl:ml-0 rtl:mr-auto font-medium tracking-tight rounded-xl whitespace-normal',
             'text-white bg-primary-500' => $isCurrentDay,
@@ -26,10 +28,11 @@
     <div class="hidden lg:block overflow-x-hidden overflow-y-auto scroll-smooth" style="height: 88px;">
         <div class="grid grid-flow-row gap-0.5" id="{{ $timestamp }}" data-status-id="{{ $timestamp }}">
             @foreach ($events as $event)
-                <div wire:key="{{rand()}}" id="{{ $event->getEventID() }}" wire:click="$dispatch('onEventClick','{{ $event->getEventID() }}')">
-                    <livewire:timex-event wire:key="{{ rand() }}" :body="$event->getBody()" :category="$event->getCategory()" :color="$event->getColor()" :event-i-d="$event->getEventID()"
-                        :icon="$event->getIcon()" :is-all-day="$event->getIsAllDay()" :organizer="$event->getOrganizer()" :start="$event->getStart()" :start-time="$event->getStartTime()"
-                        :subject="$event->getSubject()" />
+                <div wire:key="{{ rand() }}" id="{{ $event->getEventID() }}"
+                    wire:click="$dispatch('onEventClick','{{ $event->getEventID() }}')">
+                    <livewire:timex-event wire:key="{{ rand() }}" :body="$event->getBody()" :category="$event->getCategory()"
+                        :color="$event->getColor()" :event-i-d="$event->getEventID()" :icon="$event->getIcon()" :is-all-day="$event->getIsAllDay()" :organizer="$event->getOrganizer()"
+                        :start="$event->getStart()" :start-time="$event->getStartTime()" :subject="$event->getSubject()" />
                 </div>
             @endforeach
         </div>

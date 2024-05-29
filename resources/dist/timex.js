@@ -1,7 +1,7 @@
 window.addEventListener('monthLoaded', event => {
     const days = event.detail[0].fullDays;
-    days.forEach(function (day){
-        Sortable.create(document.getElementById(day['id']),{
+    days.forEach(function (day) {
+        Sortable.create(document.getElementById(day['id']), {
             group: {
                 name: "shared",
             },
@@ -10,11 +10,11 @@ window.addEventListener('monthLoaded', event => {
             setData: function (dataTransfer, dragEl) {
                 dataTransfer.setData('id', dragEl.id);
             },
-            onStart: function (evt){
+            onStart: function (evt) {
             },
             onChoose: function (/**Event*/evt) {
             },
-            onMove: function (evt){
+            onMove: function (evt) {
                 let element = document.getElementById(evt.to.id);
             },
             onEnd: function (evt) {
@@ -25,7 +25,7 @@ window.addEventListener('monthLoaded', event => {
                 const eventId = evt.item.id;
                 const fromDate = evt.from.dataset.statusId;
                 const toDateID = evt.to.dataset.statusId
-                Livewire.emit('onEventChanged',eventId,toDateID)
+                Livewire.dispatch('onEventChanged', { eventId: eventId }, { toDate: toDateID })
             },
         })
     })

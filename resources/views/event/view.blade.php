@@ -114,7 +114,7 @@
                         </div>
                     </div>
                     <div class="flex gap-2">
-                        <x-filament-support::icon-button wire:key="{{ rand() }}" :icon="'heroicon-o-download'" :size="'sm'"
+                        <x-filament::icon-button wire:key="{{ rand() }}" :icon="'heroicon-o-download'" :size="'sm'"
                             wire:click="loadAttachment('{{ $attachment }}')" />
                     </div>
                 </div>

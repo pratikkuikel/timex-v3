@@ -107,7 +107,7 @@ return [
                     'color' => 'primary',
                     'icon' => [
                         'enabled' => true,
-                        'name' => 'heroicon-o-save'
+                        'name' => 'heroicon-o-check'
                     ],
                 ],
                 'cancel' => [

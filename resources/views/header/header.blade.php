@@ -26,7 +26,7 @@
                                     <x-dynamic-component :component="'heroicon-o-chevron-double-right'" class="w-4 h-4" />
                                 </div>
                             </div>
-                            </x-filament-support::button>
+                            </x-filament::button>
                             <div class="grid grid-cols-1">
                                 <div @class(['grid gap-1', 'grid-cols-' . config('timex.dropDownCols', 3)])>
                                     @foreach ($this->period as $month)
@@ -39,14 +39,14 @@
                                             wire:click="$dispatch('onMonthDropDownClick','{{ $month->timestamp }}')"
                                             :size="'sm'" :outlined="true" :color="$color" :dark-mode="true">
                                             {{ $month->shortMonthName }}
-                                            </x-filament-support::button>
+                                            </x-filament::button>
                                     @endforeach
                                 </div>
                             </div>
                     </div>
-                    </x-filament-support::dropdown.list.index>
-                    </x-filament-support::dropdown.list>
-                    </x-filament-support::dropdown>
+                    </x-filament::dropdown.list.index>
+                    </x-filament::dropdown.list>
+                    </x-filament::dropdown>
     </div>
     <div class="flex items-center gap-2 justify-between">
         <div class="flex">
@@ -54,7 +54,7 @@
                 <div wire:click="$dispatch('onTodayClick')">
                     {{ config('timex.pages.buttons.today.static') ? trans('timex::timex.labels.today') : self::getDynamicLabel('today') }}
                 </div>
-                </x-filament-support::button>
+                </x-filament::button>
         </div>
         <div class="flex gap-2">
             <x-filament::button :dark-mode="true" :size="'sm'" :outlined="true">
@@ -73,7 +73,7 @@
                             class="h-4 w-4 text-gray-500" />
                     @endunless
                 </div>
-                </x-filament-support::button>
+                </x-filament::button>
                 <x-filament::button wire:click="$dispatch('onCreateClick')" :outlined="true" :dark-mode="true"
                     :size="'sm'">
                     <div class="flex items-center gap-2">
@@ -84,7 +84,7 @@
                             ]) }}
                         </div>
                     </div>
-                    </x-filament-support::button>
+                    </x-filament::button>
         </div>
     </div>
 </div>

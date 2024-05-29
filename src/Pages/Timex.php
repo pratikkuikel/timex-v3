@@ -9,6 +9,7 @@ use Buildix\Timex\Traits\TimexTrait;
 use Carbon\Carbon;
 use Carbon\CarbonPeriod;
 use Filament\Actions\Action;
+use Filament\Actions\StaticAction;
 use Filament\Forms\Form;
 use Filament\Pages\Page;
 use Illuminate\Contracts\Support\Htmlable;
@@ -114,7 +115,7 @@ class Timex extends Page
                     'filament::resources/pages/create-record.title',
                     ['label' => Str::lower(__('timex::timex.model.label'))]
                 ))
-                ->icon(config('timex.pages.buttons.icons.createEvent'))
+                ->modalIcon(config('timex.pages.buttons.icons.createEvent'))
                 ->size('sm')
                 ->outlined(config('timex.pages.buttons.outlined'))
                 ->slideOver()
@@ -125,27 +126,26 @@ class Timex extends Page
                 ->action(fn (array $data) => $this->updateOrCreate($data))
                 ->modalFooterActions([
                     Action::make('submit')
-                        ->modal(true)
                         ->label(trans('timex::timex.modal.submit'))
                         ->color(config('timex.pages.buttons.modal.submit.color', 'primary'))
                         ->outlined(config('timex.pages.buttons.modal.submit.outlined', false))
                         ->icon(config('timex.pages.buttons.modal.submit.icon.name', ''))
-                        ->submit(null),
+                        ->modalSubmitAction(false),
                     Action::make('delete')
                         ->modal()
+                        ->visible(fn ()  => $this->getFormModel())
                         ->label(trans('timex::timex.modal.delete'))
                         ->color(config('timex.pages.buttons.modal.delete.color', 'danger'))
                         ->outlined(config('timex.pages.buttons.modal.delete.outlined', false))
                         ->icon(config('timex.pages.buttons.modal.delete.icon.name', ''))
                         ->action('deleteEvent'),
-                    // ->cancel(),
                     Action::make('cancel')
                         ->modal()
                         ->label(trans('timex::timex.modal.cancel'))
                         ->color(config('timex.pages.buttons.modal.cancel.color', 'secondary'))
                         ->outlined(config('timex.pages.buttons.modal.cancel.outlined', false))
-                        ->icon(config('timex.pages.buttons.modal.cancel.icon.name', '')),
-                    // ->cancel(),
+                        ->icon(config('timex.pages.buttons.modal.cancel.icon.name', ''))
+                        ->modalCancelAction(fn (StaticAction $action) => $action->label('Close')),
                 ]),
         ];
     }
@@ -153,19 +153,19 @@ class Timex extends Page
     public static function getEvents(): array
     {
         $events = self::getModel()::orderBy('startTime')->get();
-            // ->map(function ($event) {
-            //     return EventItem::make($event->id)
-            //         ->body($event->body)
-            //         ->category($event->category)
-            //         ->color($event->category)
-            //         ->end(Carbon::create($event->end))
-            //         ->isAllDay($event->isAllDay)
-            //         ->subject($event->subject)
-            //         ->organizer($event->organizer)
-            //         ->participants($event?->participants)
-            //         ->start(Carbon::create($event->start))
-            //         ->startTime($event?->startTime);
-            // })->toArray();
+        // ->map(function ($event) {
+        //     return EventItem::make($event->id)
+        //         ->body($event->body)
+        //         ->category($event->category)
+        //         ->color($event->category)
+        //         ->end(Carbon::create($event->end))
+        //         ->isAllDay($event->isAllDay)
+        //         ->subject($event->subject)
+        //         ->organizer($event->organizer)
+        //         ->participants($event?->participants)
+        //         ->start(Carbon::create($event->start))
+        //         ->startTime($event?->startTime);
+        // })->toArray();
 
         return collect($events)->filter(function ($event) {
             // dd($event->organizer);
