@@ -38,11 +38,12 @@ class Day extends Component
     {
         $events = collect(Timex::getEvents())
             ->sortBy(function ($event){
-                        $event->startTime;
+                        // $event->startTime;
+                        $event['startTime'];
         });
         return collect($events)->filter(function ($events) use ($timespamp){
-            return $this->eventInDay($events->start,$timespamp);
-
+            // return $this->eventInDay($events->start,$timespamp);
+            return $this->eventInDay($events['start'],$timespamp);
         });
     }
 
