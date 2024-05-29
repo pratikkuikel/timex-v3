@@ -15,7 +15,6 @@ use Buildix\Timex\Commands\SetTableNameCommand;
 use Buildix\Timex\Widgets\Mini\DayWidget;
 use Buildix\Timex\Widgets\Mini\EventWidget;
 use Filament\Facades\Filament;
-use Filament\PluginServiceProvider;
 use Illuminate\Contracts\Container\Container;
 use Illuminate\View\View;
 use Livewire\Livewire;
@@ -23,15 +22,18 @@ use Spatie\LaravelPackageTools\Commands\InstallCommand;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 use Buildix\Timex\Commands\TimexCommand;
+use Filament\Support\Facades\FilamentAsset;
+use Filament\Support\Assets\Css;
+use Filament\Support\Assets\Js;
 
-class TimexServiceProvider extends PluginServiceProvider
+class TimexServiceProvider extends PackageServiceProvider
 {
     protected array $scripts = [
-      'timex' => __DIR__.'/../resources/dist/timex.js'
+        'timex' => __DIR__ . '/../resources/dist/timex.js'
     ];
 
     protected array $styles = [
-      'timex' => __DIR__.'/../resources/dist/timex.css'
+        'timex' => __DIR__ . '/../resources/dist/timex.css'
     ];
 
     public function configurePackage(Package $package): void
@@ -51,7 +53,7 @@ class TimexServiceProvider extends PluginServiceProvider
             ->hasCommands([
                 MakeAttachmentsTableCommand::class
             ])
-            ->hasInstallCommand(function (InstallCommand $command){
+            ->hasInstallCommand(function (InstallCommand $command) {
                 $command
                     ->publishConfigFile()
                     ->publishMigrations()
@@ -62,27 +64,32 @@ class TimexServiceProvider extends PluginServiceProvider
 
     public function boot()
     {
-        Livewire::component('timex-month',Month::class);
-        Livewire::component('timex-week',Week::class);
-        Livewire::component('timex-day',Day::class);
-        Livewire::component('timex-event',Event::class);
-        Livewire::component('timex-event-widget',EventWidget::class);
-        Livewire::component('timex-day-widget',DayWidget::class);
-        Livewire::component('timex-event-list',EventList::class);
-        Livewire::component('timex-header',Header::class);
+        FilamentAsset::register([
+            Css::make('custom-stylesheet', __DIR__ . '/../resources/dist/timex.css'),
+            Js::make('custom-stylesheet', __DIR__ . '/../resources/dist/timex.js'),
+        ], package: 'buildix/timex');
+
+        Livewire::component('timex-month', Month::class);
+        Livewire::component('timex-week', Week::class);
+        Livewire::component('timex-day', Day::class);
+        Livewire::component('timex-event', Event::class);
+        Livewire::component('timex-event-widget', EventWidget::class);
+        Livewire::component('timex-day-widget', DayWidget::class);
+        Livewire::component('timex-event-list', EventList::class);
+        Livewire::component('timex-header', Header::class);
 
         $this->registerConfig();
 
         $this->callAfterResolving(Factory::class, function (Factory $factory, Container $container) {
             $config = $container->make('config')->get('timex', []);
 
-            $factory->add('timex', array_merge(['path' => __DIR__.'/../resources/svg'], $config));
+            $factory->add('timex', array_merge(['path' => __DIR__ . '/../resources/svg'], $config));
         });
 
-        if (config('timex.mini.isMiniCalendarEnabled')){
+        if (config('timex.mini.isMiniCalendarEnabled')) {
             Filament::registerRenderHook(
                 'global-search.start',
-                fn(): View => \view('timex::layout.heading')
+                fn (): View => \view('timex::layout.heading')
             );
         }
 
@@ -91,7 +98,7 @@ class TimexServiceProvider extends PluginServiceProvider
 
     private function registerConfig(): void
     {
-        $this->mergeConfigFrom(__DIR__.'/../config/timex.php', 'timex');
+        $this->mergeConfigFrom(__DIR__ . '/../config/timex.php', 'timex');
     }
 
     protected function getPages(): array
