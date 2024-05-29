@@ -1,5 +1,5 @@
 window.addEventListener('monthLoaded', event => {
-    const days = event.detail.fullDays;
+    const days = event.detail[0].fullDays;
     days.forEach(function (day){
         Sortable.create(document.getElementById(day['id']),{
             group: {
