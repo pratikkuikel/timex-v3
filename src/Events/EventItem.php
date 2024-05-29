@@ -6,7 +6,8 @@ use Carbon\Carbon;
 use Closure;
 use Livewire\Wireable;
 
-class EventItem implements Wireable
+// class EventItem implements Wireable
+class EventItem
 {
     protected ?string $body = null;
     protected ?string $category = null;
@@ -39,43 +40,43 @@ class EventItem implements Wireable
     //     return new static($value);
     // }
 
-    public function toLivewire()
-    {
-        return [
-            'body' => $this->body,
-            'category' => $this->category,
-            'color' => $this->color,
-            'end' => $this->end,
-            'endTime' => $this->endTime,
-            'eventID' => $this->eventID,
-            'icon' => $this->icon,
-            'isAllDay' => $this->isAllDay,
-            'organizer' => $this->organizer,
-            'participants' => $this->participants,
-            'start' => $this->start,
-            'startTime' => $this->startTime,
-            'subject' => $this->subject,
-            'type' => $this->type,
-        ];
-    }
+    // public function toLivewire()
+    // {
+    //     return [
+    //         'body' => $this->body,
+    //         'category' => $this->category,
+    //         'color' => $this->color,
+    //         'end' => $this->end,
+    //         'endTime' => $this->endTime,
+    //         'eventID' => $this->eventID,
+    //         'icon' => $this->icon,
+    //         'isAllDay' => $this->isAllDay,
+    //         'organizer' => $this->organizer,
+    //         'participants' => $this->participants,
+    //         'start' => $this->start,
+    //         'startTime' => $this->startTime,
+    //         'subject' => $this->subject,
+    //         'type' => $this->type,
+    //     ];
+    // }
 
-    public static function fromLivewire($value)
-    {
-        $event = new static($value['eventID']);
-        $event->body($value['body'] ?? null)
-            ->category($value['category'] ?? null)
-            ->color($value['color'] ?? null)
-            ->end(Carbon::createFromTimestamp($value['end']))
-            ->icon($value['icon'] ?? null)
-            ->isAllDay($value['isAllDay'])
-            ->organizer($value['organizer'])
-            ->participants($value['participants'] ?? [])
-            ->start(Carbon::createFromTimestamp($value['start']))
-            ->startTime($value['startTime'] ?? null)
-            ->subject($value['subject']);
+    // public static function fromLivewire($value)
+    // {
+    //     $event = new static($value['eventID']);
+    //     $event->body($value['body'] ?? null)
+    //         ->category($value['category'] ?? null)
+    //         ->color($value['color'] ?? null)
+    //         ->end(Carbon::createFromTimestamp($value['end']))
+    //         ->icon($value['icon'] ?? null)
+    //         ->isAllDay($value['isAllDay'])
+    //         ->organizer($value['organizer'])
+    //         ->participants($value['participants'] ?? [])
+    //         ->start(Carbon::createFromTimestamp($value['start']))
+    //         ->startTime($value['startTime'] ?? null)
+    //         ->subject($value['subject']);
 
-        return $event;
-    }
+    //     return $event;
+    // }
 
     public function body(?string $body): static
     {
