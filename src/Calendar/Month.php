@@ -188,15 +188,15 @@ class Month extends Component
         return $day['dayOfWeek'] === $weekDay['dayOfWeek'];
     }
 
-    public function loaded(){
-
+    public function loaded()
+    {
         $this->dispatch('monthLoaded',$this->getDays());
         $this->dispatch('monthNameChanged',$this->today,$this->today->year);
     }
     public function onEventChanged($eventID, $toDate)
     {
         $this->dispatch('eventUpdated',['id' => $eventID,'toDate' => $toDate]);
-        $this->shouldSkipRender = true;
+        $this->shouldRender = false;
     }
 
     public function getMonthName($date){
